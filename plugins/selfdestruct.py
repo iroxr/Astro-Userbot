@@ -7,16 +7,16 @@ import time
 
 from telethon import errors, utils
 
-from core.api import PREFIX, client, command, events, fail, group, listener, notify, reason, scope, ui
+from core.api import command, events, fail, group, listener, notify, reason, scope, ui, vault_send
 
 ON = "الذاتيات تفعيل"
 OFF = "الذاتيات ايقاف"
 STATUS = "حالة الذاتيات"
 
-T_ON = "✅ تم تفعيل حفظ الذاتيات\nاي صورة او فيديو او بصمة صوتية ذاتية التدمير توصلك في الخاص رح تنحفظ في الرسائل المحفوظة"
+T_ON = "✅ تم تفعيل حفظ الذاتيات\nاي صورة او فيديو او بصمة صوتية ذاتية التدمير توصلك في الخاص رح تنحفظ في قناة التخزين"
 T_OFF = "⛔ تم ايقاف حفظ الذاتيات"
 T_SAVING = "⏳ جاري حفظ {kind} ذاتية من {name}..."
-T_SAVED = "✅ تم حفظ {kind} ذاتية التدمير من {name}\nالمكان: الرسائل المحفوظة"
+T_SAVED = "✅ تم حفظ {kind} ذاتية التدمير من {name}\nالمكان: قناة التخزين"
 T_FAILED = "❌ فشل حفظ {kind} ذاتية التدمير من {name}"
 T_FAILED_HINT = "الوسائط الذاتية بتنحذف بعد ما تنفتح، فاذا فشل الحفظ ممكن تكون ضاعت. جرب تتأكد ان الاتصال ثابت"
 T_CAPTION = (
@@ -37,7 +37,7 @@ TTL_ONCE = "مرة واحدة"
 S_TITLE = "حالة الذاتيات"
 S_STATE = "الحالة"
 S_PLACE = "مكان الحفظ"
-S_PLACE_TEXT = "الرسائل المحفوظة"
+S_PLACE_TEXT = "قناة التخزين"
 S_SESSION = "المحفوظ منذ آخر تشغيل"
 S_TOTAL = "اجمالي المحفوظ"
 S_LAST = "آخر حفظ"
@@ -89,10 +89,9 @@ async def _save(msg, sender, kind):
                 path = await msg.download_media(file=tmp + "/")
                 if not path:
                     raise ValueError("empty download")
-                await client.send_file(
-                    "me",
+                await vault_send(
+                    caption,
                     path,
-                    caption=caption,
                     voice_note=bool(msg.voice),
                     video_note=bool(msg.video_note),
                     supports_streaming=bool(msg.video),
