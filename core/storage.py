@@ -56,6 +56,14 @@ async def _call(method, path, **kw):
     raise StorageError(str(last))
 
 
+async def close():
+    """Close the shared HTTP session so no connection is left open on exit or restart."""
+    global _session
+    if _session is not None and not _session.closed:
+        await _session.close()
+    _session = None
+
+
 async def read(path):
     """Return (bytes, sha) or (None, None) when the file does not exist."""
     status, js = await _call("GET", path, params={"ref": BRANCH})

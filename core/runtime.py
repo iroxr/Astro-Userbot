@@ -7,7 +7,7 @@ import os
 import sys
 import time
 
-from . import DATA_DIR, PREFIX, bot, client, eventlog, lang, settings
+from . import DATA_DIR, PREFIX, bot, client, eventlog, lang, settings, state, storage
 
 log = logging.getLogger("astro.runtime")
 
@@ -23,9 +23,17 @@ async def restart(event, kind="restart"):
     info = {"t": time.time(), "kind": kind, "chat": entry.chat, "msg": entry.msg_id}
     MARK.write_text(json.dumps(info))
     await settings.flush()
+    for task in list(state.tasks):
+        task.cancel()
+    if state.tasks:
+        await asyncio.gather(*state.tasks, return_exceptions=True)
     await bot.stop()
     try:
         await asyncio.wait_for(client.disconnect(), 5)
+    except Exception:
+        pass
+    try:
+        await storage.close()
     except Exception:
         pass
     os.execv(sys.executable, [sys.executable, *sys.argv])
