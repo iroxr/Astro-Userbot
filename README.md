@@ -10,7 +10,7 @@ Empty core. Every feature is a single file you drop in.
 ![Deploy](https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/YOUR_USERNAME/Astro-Userbot)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/iroxr/Astro-Userbot)
 
 [Features](#features) · [Quick start](#quick-start) · [Configuration](#configuration) · [Commands](#built-in-commands) · [Writing plugins](#writing-plugins) · [العربية](#-بالعربي)
 
@@ -51,7 +51,7 @@ You also need a Telegram `API_ID` / `API_HASH` from [my.telegram.org](https://my
 
 ### One-click deploy
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/YOUR_USERNAME/Astro-Userbot)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/iroxr/Astro-Userbot)
 
 Two things are needed before you press the button:
 
