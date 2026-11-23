@@ -16,7 +16,7 @@ REQUIRED = ("API_ID", "API_HASH", "SESSION", "GITHUB_TOKEN", "GITHUB_REPO")
 
 
 async def run():
-    from core import bot, client, eventlog, keepalive, lang, loader, registry, runtime
+    from core import bot, client, eventlog, keepalive, lang, loader, registry, runtime, vault
     from core import settings, state, storage
     import core.dispatcher  # noqa: F401
 
@@ -38,6 +38,7 @@ async def run():
         sys.exit("SESSION is invalid or expired")
     state.me = await client.get_me()
     await eventlog.ensure()
+    await vault.ensure()
 
     problems = []
     if sync_error is not None:
