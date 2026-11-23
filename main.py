@@ -66,6 +66,8 @@ async def run():
         await client.run_until_disconnected()
     finally:
         await settings.flush()
+        await bot.stop()
+        await storage.close()
 
 
 if __name__ == "__main__":
