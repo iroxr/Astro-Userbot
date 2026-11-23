@@ -10,7 +10,7 @@ import time
 from telethon import __version__ as TELETHON_VERSION
 from telethon.tl.functions import PingRequest
 
-from . import PLUGINS_DIR, PREFIX, bot, client, eventlog, lang, registry, runtime, settings, state, storage, ui
+from . import PLUGINS_DIR, PREFIX, bot, client, eventlog, lang, registry, runtime, settings, state, storage, ui, vault
 from . import errors as err
 from .registry import bot_command, command, group
 
@@ -169,6 +169,10 @@ async def system_status(event, args):
     ]
     if problem:
         rows.append((lang.LBL_REASON, html.escape(problem)))
+    vid, vproblem = vault.info()
+    rows.append((lang.SYS_VAULT, lang.SYS_VAULT_OK + f" <code>{vid}</code>" if vid and not vproblem else lang.SYS_VAULT_BAD))
+    if vproblem:
+        rows.append((lang.LBL_REASON, html.escape(vproblem)))
     if not bot.enabled():
         rows.append((lang.SYS_BOT, lang.SYS_BOT_OFF))
     elif bot.running():

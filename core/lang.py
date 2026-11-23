@@ -126,3 +126,13 @@ SYS_BOT_BAD = "⚠️ فشل التشغيل"
 SYS_BOT_OWNER = "ربط الحساب"
 SYS_BOT_OWNER_OK = "✅ تم"
 SYS_BOT_OWNER_NO = "⚠️ افتح البوت واكتب /start"
+
+# storage channel
+VAULT_TITLE = "قناة التخزين"
+VAULT_ALT = "التخزين"
+VAULT_ABOUT = "ارشيف Astro Userbot: الذاتيات والرسائل المحذوفة والمعدلة"
+VAULT_CREATED = "✅ تم انشاء قناة التخزين لانها ما كانت موجودة، من الان الذاتيات والمحذوفات رح تنحفظ فيها"
+VAULT_FALLBACK = "⚠️ تعذر الوصول لقناة التخزين فتم الحفظ في الرسائل المحفوظة مؤقتا\nالسبب: {reason}\n\n"
+SYS_VAULT = "قناة التخزين"
+SYS_VAULT_OK = "✅ متصلة"
+SYS_VAULT_BAD = "⚠️ غير متاحة، يتم استخدام الرسائل المحفوظة"
