@@ -4,6 +4,9 @@
   "setup_date": "2026-11-23",
   "vault_channel": -1003964931353
  },
+ "deleted": {
+  "enabled": true
+ },
  "selfdestruct": {
   "enabled": true,
   "total": 4
