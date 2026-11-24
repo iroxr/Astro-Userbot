@@ -113,6 +113,8 @@ def reason(exc):
             if seconds and name in ("FloodWaitError", "SlowModeWaitError", "FloodError"):
                 return f"{base}، المدة المطلوبة {_span(seconds)}"
             return base
+    if isinstance(exc, ValueError) and "Request was unsuccessful" in str(exc):
+        return "تيليجرام ما رد على الطلب بعد عدة محاولات، غالبا عطل مؤقت عندهم، جرب بعد شوي"
     if isinstance(exc, ValueError):
         return "تعذر تحديد الهدف: المحادثة او المستخدم غير موجود او الحساب ما شافه من قبل"
     return "خطأ غير متوقع في البوت"

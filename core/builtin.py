@@ -10,7 +10,7 @@ import time
 from telethon import __version__ as TELETHON_VERSION
 from telethon.tl.functions import PingRequest
 
-from . import PLUGINS_DIR, PREFIX, bot, client, eventlog, lang, registry, runtime, settings, state, storage, ui, vault
+from . import PLUGINS_DIR, PREFIX, bot, client, eventlog, lang, panel, registry, runtime, settings, state, storage, ui, vault
 from . import errors as err
 from .registry import bot_command, command, group
 
@@ -94,7 +94,7 @@ async def add_file(event, args):
     await event.edit(text.format(name=f"<code>{html.escape(name)}</code>", update=f"{PREFIX}{lang.CMD_UPDATE}"))
 
 
-@command(lang.CMD_UPDATE, "Pull plugins and restart", order=20)
+@command(lang.CMD_UPDATE, "Pull plugins and restart", order=20, confirm=True)
 async def update(event, args):
     await event.edit(lang.UPDATING)
     try:
@@ -112,7 +112,7 @@ async def update(event, args):
     await runtime.restart(event, "update")
 
 
-@command(lang.CMD_RESTART, "Restart the bot", order=30)
+@command(lang.CMD_RESTART, "Restart the bot", order=30, confirm=True)
 async def restart(event, args):
     await event.edit(lang.RESTARTING)
     await runtime.restart(event, "restart")
@@ -199,7 +199,19 @@ async def system_status(event, args):
 
 @bot_command("start", lang.BOT_DESC_START)
 async def bot_start(event, args):
-    await event.respond(lang.BOT_WELCOME.format(name=html.escape(_account_name())))
+    _, buttons = panel.main()
+    await event.respond(lang.BOT_WELCOME.format(name=html.escape(_account_name())), buttons=buttons)
+
+
+@bot_command("menu", lang.BOT_DESC_MENU)
+async def bot_menu(event, args):
+    text, buttons = panel.main()
+    await event.respond(text, buttons=buttons)
+
+
+@bot_command("run", lang.BOT_DESC_RUN)
+async def bot_run(event, args):
+    await panel.run_text(event, args)
 
 
 @bot_command("status", lang.BOT_DESC_STATUS)

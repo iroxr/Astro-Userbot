@@ -156,9 +156,10 @@ async def _send(text):
 class Entry:
     """A logged message that can be edited as the work progresses."""
 
-    def __init__(self, ids, chat):
+    def __init__(self, ids, chat, text=""):
         self.ids = list(ids)
         self.chat = chat
+        self.text = text  # last text written, so the button panel can show it in the bot chat
 
     @property
     def msg_id(self):
@@ -172,6 +173,7 @@ class Entry:
         return await _resolve(self.chat)
 
     async def update(self, text):
+        self.text = text
         parts = _chunks(text)
         try:
             peer = await self._peer_for()
@@ -218,7 +220,7 @@ async def post(text):
         if msg is not None:
             ids.append(msg.id)
             chat = where
-    return Entry(ids, chat)
+    return Entry(ids, chat, text)
 
 
 async def fail(title, exc, entry=None, hint=None):

@@ -19,6 +19,7 @@ class Command:
     hidden: bool
     seq: int
     keep: bool = False
+    confirm: bool = False
 
 
 @dataclass
@@ -65,14 +66,14 @@ def group(name, order=100):
     _group_order.setdefault(name, order)
 
 
-def command(name, desc="", aliases=(), order=100, hidden=False, group=None, keep=False):
+def command(name, desc="", aliases=(), order=100, hidden=False, group=None, keep=False, confirm=False):
     def wrap(fn):
         owned = _own()
         grp = _norm(group or _defaults.get(current) or "")
         if not grp:
             raise PluginError(lang.NO_GROUP)
         _group_order.setdefault(grp, 100)
-        cmd = Command(_norm(name), grp, desc, fn, current, order, hidden, next(_seq), keep)
+        cmd = Command(_norm(name), grp, desc, fn, current, order, hidden, next(_seq), keep, confirm)
         for key in (name, *aliases):
             key = _norm(key)
             if key in commands:
