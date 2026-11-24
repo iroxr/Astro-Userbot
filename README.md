@@ -33,6 +33,7 @@ It is designed to run for free on a Render web service, with all state stored in
 - **Persistent by design.** Settings are saved to `data/settings.json` in your repo through a simple key-value store.
 - **Events channel.** Command output and notifications are written to a dedicated channel (`قناة الاحداث`) that the bot finds or creates itself. The command message is deleted so your chats stay clean.
 - **Private companion bot (optional).** Set `BOT_TOKEN` and a bot that answers only you appears: built-in `/start`, `/status`, `/commands`, plus plugin commands and push notifications.
+- **Button panel.** `/menu` in the bot opens the same groups and commands as `.الاوامر`, as tappable buttons. It is built from the registry, so every current and future plugin shows up without any change.
 - **Readable errors.** Failures are reported with the cause, the technical detail and a suggested fix.
 - **Auto-generated menus.** `.الاوامر` lists every plugin group; `.اوامر <name>` lists a group's commands.
 - **AI-friendly.** `PLUGIN_GUIDE.md` is a complete spec so any AI model can write a compatible plugin in one shot.
@@ -170,6 +171,10 @@ With `BOT_TOKEN` set, a second Telegram client (your bot) runs next to the userb
 | `/start`    | Welcome message, links the bot to your account |
 | `/status`   | Same status card as `.الحالة` |
 | `/commands` | Lists every bot command, including plugin commands |
+| `/menu`     | Button panel: groups, then commands, tap to run |
+| `/run <command>` | Run any userbot command with arguments, e.g. `/run مثال رسالة hello` |
+
+The button panel runs the same handlers as typed commands. The result is shown in the bot chat under the buttons **and** written to the events channel as usual. Commands that need text: run them once, then tap **✍️ تنفيذ مع نص** and send the text (or use `/run`). Commands registered with `confirm=True` (restart, update) ask for confirmation first. Typed commands in any chat are unchanged.
 
 Plugins add their own bot commands with `@bot_command` and can push messages to you with `bot_notify(text)`. See [`PLUGIN_GUIDE.md`](PLUGIN_GUIDE.md#15-companion-bot-commands). Without `BOT_TOKEN` nothing changes and plugins that use the bot should fall back to the events channel.
 
@@ -193,6 +198,7 @@ core/
   dispatcher.py         outgoing-message router
   loader.py             plugin loader with rollback
   bot.py                optional private companion bot
+  panel.py              button panel of the bot (menus built from the registry)
   builtin.py            menus and system commands
   storage.py            GitHub Contents API wrapper
   settings.py           persistent key-value store
@@ -252,6 +258,8 @@ Released under the [MIT License](LICENSE).
 5. ارسل `.الاوامر` لعرض القائمة.
 
 **بوت التحكم الخاص (اختياري):** اعمل بوت من @BotFather، ضيف توكنه في Render بمتغير `BOT_TOKEN`، ثم افتح البوت واكتب `/start`. البوت بيرد عليك انت بس وبيتجاهل كل الناس.
+
+**ازرار التحكم:** اكتب `/menu` بالبوت بيطلعلك ازرار بكل مجموعات الاوامر (نفس `.الاوامر`)، تضغط مجموعة ثم امر وبينفذ. القوائم بتتبني من سجل الاوامر، فاي اضافة جديدة بتظهر بالازرار لحالها. الاوامر النصية من اي محادثة بتضل شغالة مثل ما هي. للاوامر اللي بدها نص اضغط ✍️ تنفيذ مع نص او استخدم `/run اسم الامر النص`.
 
 **تنبيهات مهمة**
 - قيمة `SESSION` بتعطي وصول كامل لحسابك، لا تشاركها ولا ترفعها على GitHub.

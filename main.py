@@ -48,6 +48,8 @@ async def run():
     except Exception as exc:
         log.exception("companion bot failed to start")
         problems.append((lang.BOT_START_FAILED, exc, lang.BOT_START_HINT))
+        if bot.enabled():
+            state.tasks.append(asyncio.create_task(bot.keep_trying()))  # retry quietly in the background
     for hook in list(registry.start_hooks):
         try:
             await hook()
