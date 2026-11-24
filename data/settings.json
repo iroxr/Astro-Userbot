@@ -1,7 +1,8 @@
 {
  "core": {
   "events_channel": -1003981140162,
-  "setup_date": "2026-11-23"
+  "setup_date": "2026-11-23",
+  "vault_channel": -1003964931353
  },
  "selfdestruct": {
   "enabled": true,
